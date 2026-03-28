@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #1D5C26;
+  --yellow: #EAE202;
+  --blue: #000A48;
+}
+
+body {
+  background-color: #1D5C26;
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-pingaara {
+  font-family: 'Caligrafitti', cursive;
+}
+
+.font-heading {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.font-body {
+  font-family: 'Poppins', sans-serif;
+}
