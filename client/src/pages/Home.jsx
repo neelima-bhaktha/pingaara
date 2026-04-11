@@ -1,12 +1,40 @@
 import Navbar from '../components/Navbar'
 import fish from '../assets/fish.png'
+import AboutSection from '../components/AboutSection'
+import MenuSection from '../components/MenuSection'
+import GallerySection from '../components/GallerySection'
+import Footer from '../components/Footer'
+import { useEffect, useRef } from 'react'
+
 
 function Home() {
+  const fishRef = useRef(null)
+
+  useEffect(() => {
+    let start = null
+    let animFrameId
+
+    const animate = (timestamp) => {
+      if (!start) start = timestamp
+      const elapsed = timestamp - start
+      // Slow gentle bob — full cycle every 3 seconds
+      const y = Math.sin((elapsed / 3000) * 2 * Math.PI) * 12
+      const rotate = Math.sin((elapsed / 3000) * 2 * Math.PI) * 2.5
+      if (fishRef.current) {
+        fishRef.current.style.transform = `translate(-50%, calc(-50% + ${y}px)) rotate(${rotate}deg)`
+      }
+      animFrameId = requestAnimationFrame(animate)
+    }
+
+    animFrameId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animFrameId)
+  }, [])
+
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#1D5C26' }}>
       <Navbar />
 
-      {/* Hero Section — starts below navbar */}
+      {/* Hero Section */}
       <section
         className="min-h-screen flex flex-col justify-center px-16"
         style={{ paddingTop: '100px' }}
@@ -18,9 +46,6 @@ function Home() {
               fontFamily: "'Bebas Neue', sans-serif",
               color: 'white',
               fontSize: '7rem',
-              
-              textDecorationColor: '#EAE202',
-              textUnderlineOffset: '10px',
               lineHeight: 1,
             }}
           >
@@ -31,15 +56,15 @@ function Home() {
         {/* Text left + Fish right */}
         <div className="flex items-center justify-between gap-10">
 
-          {/* Left Text */}
-          <div style={{ maxWidth: '420px' }}>
+          {/* Left Text — shifted right */}
+          <div style={{ maxWidth: '420px', marginLeft: '80px' }}>
             <h2
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
                 color: '#EAE202',
                 fontSize: '3.9rem',
                 lineHeight: 1.05,
-                marginBottom: '1.5rem',
+                marginBottom: '0.6rem', // ← reduced gap
               }}
             >
               SEA FRESH FLAVOURS, EVERY DAY OF THE WEEK.
@@ -84,8 +109,9 @@ function Home() {
                 zIndex: 0,
               }}
             />
-            {/* Fish */}
+            {/* Fish — toggling via JS ref */}
             <img
+              ref={fishRef}
               src={fish}
               alt="Fresh Fish"
               style={{
@@ -95,18 +121,19 @@ function Home() {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 1,
+                willChange: 'transform',
               }}
             />
-            {/* Fresh Fish Only */}
+            {/* Fresh Fish Only — shifted left */}
             <p
               style={{
                 fontFamily: "'Calligraffitti', cursive",
                 color: 'white',
-                fontSize: '1.5rem',
+                fontSize: '2.2rem',
                 fontStyle: 'italic',
                 position: 'absolute',
                 bottom: '20px',
-                right: '10px',
+                right: '80px', // ← moved left from 10px
                 zIndex: 2,
                 whiteSpace: 'nowrap',
               }}
@@ -117,6 +144,10 @@ function Home() {
 
         </div>
       </section>
+      <AboutSection />
+      <MenuSection />
+      <GallerySection />
+      <Footer />
     </div>
   )
 }

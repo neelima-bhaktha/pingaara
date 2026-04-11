@@ -18,7 +18,7 @@ body {
 }
 
 .font-pingaara {
-  font-family: 'Caligrafitti', cursive;
+  font-family: 'Calligraffitti', cursive;
 }
 
 .font-heading {
@@ -27,4 +27,9 @@ body {
 
 .font-body {
   font-family: 'Poppins', sans-serif;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
