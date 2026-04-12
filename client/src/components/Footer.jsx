@@ -1,4 +1,4 @@
-import band from '../assets/band.png'
+import band from '../assets/Band.png'
 import { Link } from 'react-router-dom'
 
 function Footer() {

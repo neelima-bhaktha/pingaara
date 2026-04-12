@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import restaurant from '../assets/restaurant.png'
-import band from '../assets/band.png'
+import band from '../assets/Band.png'
 
 function AboutSection() {
   const textRef = useRef(null)

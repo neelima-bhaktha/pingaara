@@ -1,4 +1,4 @@
-import band from '../assets/band.png'
+import band from '../assets/Band.png'
 import fish2 from '../assets/fish2.png'
 import fish3 from '../assets/fish3.png'
 
