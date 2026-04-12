@@ -61,10 +61,11 @@ function AboutSection() {
 
       {/* Main content */}
       <div
+        className="about-content"
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'Center',
+          justifyContent: 'space-between',
           padding: '80px 80px',
           gap: '60px',
           minHeight: '460px',
@@ -109,6 +110,7 @@ function AboutSection() {
 
         {/* Right — Restaurant Image */}
         <div
+          className="about-image"
           style={{
             flexShrink: 0,
             width: '380px',
