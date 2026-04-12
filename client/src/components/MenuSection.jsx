@@ -168,8 +168,8 @@ const ctaText = {
 }
 
 const ctaButton = {
-  backgroundColor: '#EAE202',
-  color: '#1D5C26',
+  backgroundColor: '#000A48',
+  color: '#EAE202',
   fontFamily: "'Poppins', sans-serif",
   fontWeight: '700',
   fontSize: '0.85rem',

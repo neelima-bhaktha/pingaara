@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
+import logo from '../assets/logo.png'
 
 const styles = {
   nav: {
@@ -13,12 +14,6 @@ const styles = {
     padding: '20px 64px',
     backgroundColor: '#1D5C26',
     boxSizing: 'border-box',
-  },
-  logo: {
-    fontFamily: "'Calligraffitti', cursive",
-    color: '#EAE202',
-    fontSize: '2rem',
-    textDecoration: 'none',
   },
   navList: {
     display: 'flex',
@@ -39,8 +34,8 @@ const styles = {
   },
   orderBtn: {
     fontFamily: "'Poppins', sans-serif",
-    backgroundColor: '#EAE202',
-    color: '#1D5C26',
+    backgroundColor: '#000A48',
+    color: '#EAE202',
     fontWeight: '700',
     fontSize: '0.85rem',
     letterSpacing: '0.15em',
@@ -63,8 +58,12 @@ function Navbar() {
     <nav style={styles.nav}>
 
       {/* Logo */}
-      <Link to="/" style={styles.logo}>
-        pingaara
+      <Link to="/">
+        <img
+          src={logo}
+          alt="Pingaara"
+          style={{ height: '50px', objectFit: 'contain' }}
+        />
       </Link>
 
       {/* Nav Links */}

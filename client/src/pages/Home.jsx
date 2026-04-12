@@ -3,6 +3,7 @@ import fish from '../assets/fish.png'
 import AboutSection from '../components/AboutSection'
 import MenuSection from '../components/MenuSection'
 import GallerySection from '../components/GallerySection'
+import RiceWave from '../components/RiceWave'
 import Footer from '../components/Footer'
 import { useEffect, useRef } from 'react'
 
@@ -147,6 +148,7 @@ function Home() {
       <AboutSection />
       <MenuSection />
       <GallerySection />
+      <RiceWave />
       <Footer />
     </div>
   )

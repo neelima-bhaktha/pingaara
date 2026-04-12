@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar'
 import GallerySection from '../components/GallerySection'
+import RiceWave from '../components/RiceWave'
 import Footer from '../components/Footer'
 
 function Gallery() {
@@ -8,6 +9,7 @@ function Gallery() {
       <Navbar />
       <div style={{ paddingTop: '80px' }}>
         <GallerySection />
+        <RiceWave />
         <Footer />
       </div>
     </div>
