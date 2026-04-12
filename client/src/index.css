@@ -15,21 +15,77 @@
 body {
   background-color: #1D5C26;
   font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
 }
 
-.font-pingaara {
-  font-family: 'Calligraffitti', cursive;
-}
-
-.font-heading {
-  font-family: 'Bebas Neue', sans-serif;
-}
-
-.font-body {
-  font-family: 'Poppins', sans-serif;
-}
+.font-pingaara { font-family: 'Calligraffitti', cursive; }
+.font-heading { font-family: 'Bebas Neue', sans-serif; }
+.font-body { font-family: 'Poppins', sans-serif; }
 
 @keyframes scrollLeft {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+/* ── NAVBAR ── */
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-order-btn {
+    font-size: 0.7rem !important;
+    padding: 8px 14px !important;
+  }
+  nav {
+    padding: 14px 20px !important;
+  }
+}
+
+/* ── HERO ── */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column !important;
+    padding: 100px 20px 40px !important;
+    align-items: flex-start !important;
+  }
+  .hero-title {
+    font-size: 4rem !important;
+  }
+  .hero-subtitle {
+    font-size: 2.8rem !important;
+  }
+  .hero-body {
+    font-size: 0.85rem !important;
+  }
+  .fish-container {
+    width: 100% !important;
+    height: 280px !important;
+    margin-top: 20px !important;
+  }
+  .fish-img {
+    width: 260px !important;
+  }
+}
+
+/* ── ABOUT ── */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column !important;
+    padding: 40px 24px !important;
+    gap: 30px !important;
+  }
+  .about-image {
+    width: 100% !important;
+    height: 220px !important;
+  }
+}
+
+/* ── FOOTER ── */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column !important;
+    padding: 40px 24px !important;
+    gap: 30px !important;
+  }
+  .footer-right {
+    padding-left: 0 !important;
+  }
 }
