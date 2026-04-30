@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 export default function Order() {
   const { user, loading } = useAuth();
+  const { cart, addToCart } = useCart();
+  const navigate = useNavigate();
+  
   const [menuItems, setMenuItems] = useState([]);
   const [fetching, setFetching] = useState(true);
   const [selectedVarieties, setSelectedVarieties] = useState({});
@@ -46,36 +50,71 @@ export default function Order() {
     return <Navigate to="/login" replace />;
   }
 
-  const handlePlaceOrder = (item) => {
+  const handleAddToCart = (item) => {
     const hasVarieties = item.varieties && item.varieties.length > 0;
     const selectedIdx = selectedVarieties[item._id] || 0;
     const itemNote = notes[item._id] || '';
     
-    let itemName = item.name;
     let itemPrice = item.price;
+    let selectedVariety = null;
     
     if (hasVarieties) {
-      const variety = item.varieties[selectedIdx];
-      itemName = `${item.name} (${variety.name})`;
-      itemPrice = variety.price;
+      selectedVariety = item.varieties[selectedIdx];
+      itemPrice = selectedVariety.price;
     }
     
-    let message = `Order placed successfully for ${itemName} (₹${itemPrice})!`;
-    if (itemNote) {
-      message += `\nNote included: "${itemNote}"`;
-    }
-    message += `\nOur kitchen is preparing it now.`;
-
-    alert(message);
+    addToCart(item, selectedVariety, itemNote, itemPrice, 1);
     
     // Clear the note after ordering
     setNotes(prev => ({...prev, [item._id]: ''}));
   };
 
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <div style={{ backgroundColor: '#1D5C26', minHeight: '100vh', color: 'white', fontFamily: "'Poppins', sans-serif" }}>
       <Navbar />
-      <div style={{ paddingTop: '100px', paddingBottom: '60px', paddingLeft: '40px', paddingRight: '40px', maxWidth: '800px', margin: '0 auto' }}>
+      
+      {/* Sticky Checkout Header */}
+      {totalItems > 0 && (
+        <div style={{ 
+          position: 'fixed', 
+          top: '90px', 
+          left: 0, 
+          right: 0, 
+          backgroundColor: '#000A48', 
+          padding: '15px 40px', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          zIndex: 90,
+          boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+        }}>
+          <div style={{ fontWeight: 'bold' }}>
+            {totalItems} item(s) in cart
+          </div>
+          <button 
+            onClick={() => navigate('/checkout')}
+            style={{
+              backgroundColor: '#EAE202',
+              color: '#000A48',
+              border: 'none',
+              padding: '10px 24px',
+              borderRadius: '999px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              fontFamily: "'Poppins', sans-serif",
+              textTransform: 'uppercase',
+              fontSize: '0.85rem',
+              letterSpacing: '0.05em',
+            }}
+          >
+            View Cart & Checkout
+          </button>
+        </div>
+      )}
+
+      <div style={{ paddingTop: totalItems > 0 ? '160px' : '100px', paddingBottom: '60px', paddingLeft: '40px', paddingRight: '40px', maxWidth: '800px', margin: '0 auto' }}>
         
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2.5rem', color: '#EAE202' }}>
@@ -176,7 +215,7 @@ export default function Order() {
                   </div>
                   
                   <button 
-                    onClick={() => handlePlaceOrder(item)}
+                    onClick={() => handleAddToCart(item)}
                     style={{
                       backgroundColor: '#EAE202',
                       color: '#000A48',
@@ -193,7 +232,7 @@ export default function Order() {
                       whiteSpace: 'nowrap'
                     }}
                   >
-                    Place Order
+                    Add to Cart
                   </button>
                 </div>
               );

@@ -73,7 +73,7 @@ function GallerySection() {
           {reviews.length === 0 ? (
             <div style={{padding: '0 40px', color:'#000A48', fontWeight:'bold'}}>No photos yet. Be the first to upload!</div>
           ) : (
-            [...reviews, ...reviews, ...reviews].map((rev, index) => (
+            (reviews.length > 3 ? [...reviews, ...reviews, ...reviews] : reviews).map((rev, index) => (
               <img
                 key={index}
                 src={rev.imageUrl}

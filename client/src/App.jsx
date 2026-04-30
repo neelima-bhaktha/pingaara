@@ -7,24 +7,29 @@ import Gallery from './pages/Gallery'
 import Admin from './pages/Admin'
 import Login from './pages/Login'
 import Order from './pages/Order'
+import Checkout from './pages/Checkout'
 import IntroScreen from './components/IntroScreen'
 import { AuthProvider } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
 
 function App() {
   const [introComplete, setIntroComplete] = useState(false)
 
   return (
     <AuthProvider>
-      {!introComplete && <IntroScreen onFinish={() => setIntroComplete(true)} />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
+      <CartProvider>
+        {!introComplete && <IntroScreen onFinish={() => setIntroComplete(true)} />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </CartProvider>
     </AuthProvider>
   )
 }
