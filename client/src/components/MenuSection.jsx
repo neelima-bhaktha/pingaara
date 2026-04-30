@@ -1,22 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import food1 from '../assets/food1.png'
 import food2 from '../assets/food2.png'
-
-const menuItems = [
-  'BONDAS', 'BONDAS',
-  'BONDAS', 'BONDAS',
-  'BONDAS', 'BONDAS',
-  'BONDAS', 'BONDAS',
-  'BONDAS', 'BONDAS',
-]
 
 const images = [food1, food2]
 
 function Menu() {
   const [current, setCurrent] = useState(0)
+  const [menuItems, setMenuItems] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // ✅ fixed state update
+  useEffect(() => {
+    fetch('/api/menu')
+      .then(res => res.json())
+      .then(data => {
+        setMenuItems(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error("Error fetching menu:", err)
+        setLoading(false)
+      })
+  }, [])
+
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length)
   const next = () => setCurrent((c) => (c + 1) % images.length)
 
@@ -86,16 +92,21 @@ function Menu() {
           maxWidth: '600px',
           margin: '0 auto',
         }}>
-          {menuItems.map((item, index) => (
+          {loading && <div style={{ color: 'white', textAlign: 'center', gridColumn: 'span 2' }}>Loading Menu...</div>}
+          {!loading && menuItems.map((item, index) => (
             <div
-              key={index}
+              key={item._id || index}
               style={{
                 padding: '18px 10px',
                 borderBottom: '1px solid rgba(234, 226, 2, 0.3)',
                 borderRight: index % 2 === 0 ? '1px solid rgba(234, 226, 2, 0.3)' : 'none',
               }}
             >
-              <span style={menuTextStyle}>{item}</span>
+              <div style={menuTextStyle}>{item.name}</div>
+
+              {item.description && (
+                <div style={menuSubTextStyle}>{item.description}</div>
+              )}
             </div>
           ))}
         </div>
@@ -114,7 +125,6 @@ function Menu() {
             Indulge in food that takes you on a journey with the freshest seafood and innovative flavors.
           </p>
 
-          {/* ✅ FIXED BUTTON */}
           <a
             href="tel:+911234567890"
             style={ctaButton}
@@ -151,6 +161,15 @@ const menuTextStyle = {
   color: '#EAE202',
   fontSize: '1.3rem',
   letterSpacing: '0.1em',
+}
+
+const menuSubTextStyle = {
+  fontFamily: "'Poppins', sans-serif",
+  color: 'white',
+  fontSize: '0.9rem',
+  marginTop: '4px',
+  opacity: 0.8,
+  letterSpacing: '0.05em',
 }
 
 const ctaHeading = {

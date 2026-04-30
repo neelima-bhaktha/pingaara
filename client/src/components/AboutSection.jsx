@@ -36,7 +36,7 @@ function AboutSection() {
     })
   }, [])
 
-  const text = 'More than a meal. Pingaara is an experience. Rooted in coastal heritage, serving handpicked seafood crafted with care.'
+  const text = 'Pingaara is a traditional South Indian restaurant that brings together authentic flavors with a seamless dining experience. Our goal is to make coastal cuisine discovery simple, engaging, and accessible for everyone. We celebrate the rich food customs of different regions of Tulunaadu, offering a truly immersive culinary experience. At Pingaara, we believe that good food deserves an equally delightful presentation and service. Established in the early 1990s, we continue to redefine how people experience coastal dining.'
   const words = text.split(' ')
 
   return (
@@ -77,7 +77,7 @@ function AboutSection() {
           style={{
             maxWidth: '420px',
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.5rem',
+            fontSize: '1.04rem',
             fontWeight: '600',
             textTransform: 'uppercase',
             letterSpacing: '0.01em',
