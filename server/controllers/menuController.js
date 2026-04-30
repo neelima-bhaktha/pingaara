@@ -17,11 +17,12 @@ const getMenuItems = async (req, res) => {
 // @access  Private/Admin
 const createMenuItem = async (req, res) => {
   try {
-    const { name, description, price, category, imageUrl, isAvailable } = req.body;
+    const { name, description, price, varieties, category, imageUrl, isAvailable } = req.body;
     const item = new MenuItem({
       name,
       description,
       price,
+      varieties,
       category,
       imageUrl,
       isAvailable

@@ -37,7 +37,7 @@ const authUser = async (req, res) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   try {
     const userExists = await User.findOne({ username });
@@ -50,6 +50,7 @@ const registerUser = async (req, res) => {
     const user = await User.create({
       username,
       password, // Should be hashed
+      role: role || 'customer',
     });
 
     if (user) {
