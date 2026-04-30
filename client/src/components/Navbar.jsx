@@ -1,5 +1,6 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import { useAuth } from '../context/AuthContext'
 
 const styles = {
   nav: {
@@ -44,6 +45,9 @@ const styles = {
     textTransform: 'uppercase',
     textDecoration: 'none',
     transition: 'background-color 0.2s ease, color 0.2s ease',
+    cursor: 'pointer',
+    border: 'none',
+    display: 'inline-block',
   },
 }
 
@@ -54,6 +58,14 @@ const navItems = [
 ]
 
 function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <nav style={styles.nav}>
 
@@ -82,25 +94,35 @@ function Navbar() {
             </NavLink>
           </li>
         ))}
+        {user && user.role === 'admin' && (
+          <li>
+            <NavLink to="/admin" style={styles.navLink}>Dashboard</NavLink>
+          </li>
+        )}
       </ul>
 
-      {/* Order Now */}
-      <Link
-        to="/order"
-        style={styles.orderBtn}
-        onMouseEnter={e => {
-          e.target.style.backgroundColor = '#1D5C26'
-          e.target.style.color = '#EAE202'
-          e.target.style.outline = '2px solid #EAE202'
-        }}
-        onMouseLeave={e => {
-          e.target.style.backgroundColor = '#EAE202'
-          e.target.style.color = '#1D5C26'
-          e.target.style.outline = 'none'
-        }}
-      >
-        Order Now
-      </Link>
+      {/* Right side buttons */}
+      <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+        {user ? (
+          <>
+            {user.role === 'customer' && (
+              <Link to="/order" style={styles.orderBtn}>Order Now</Link>
+            )}
+            <button onClick={handleLogout} style={{ ...styles.orderBtn, backgroundColor: 'transparent', color: 'white', border: '1px solid white' }}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={{ ...styles.orderBtn, backgroundColor: 'transparent', color: 'white', border: '1px solid white' }}>
+              Login
+            </Link>
+            <Link to="/order" style={styles.orderBtn}>
+              Order Now
+            </Link>
+          </>
+        )}
+      </div>
 
     </nav>
   )

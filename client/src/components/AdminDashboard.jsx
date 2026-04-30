@@ -9,8 +9,9 @@ export default function AdminDashboard({ token, onLogout }) {
   // Menu Form State
   const [menuName, setMenuName] = useState('');
   const [menuDesc, setMenuDesc] = useState('');
-  const [menuPrice, setMenuPrice] = useState(0);
+  const [menuPrice, setMenuPrice] = useState('');
   const [menuCategory, setMenuCategory] = useState('');
+  const [menuVarieties, setMenuVarieties] = useState('');
 
   const fetchMenu = async () => {
     const res = await fetch('/api/menu');
@@ -33,6 +34,15 @@ export default function AdminDashboard({ token, onLogout }) {
 
   const handleAddMenu = async (e) => {
     e.preventDefault();
+    
+    let varietiesArray = [];
+    if (menuVarieties.trim() !== '') {
+      varietiesArray = menuVarieties.split(',').map(v => {
+        const [name, price] = v.split(':');
+        return { name: name.trim(), price: Number(price.trim()) };
+      }).filter(v => v.name && !isNaN(v.price));
+    }
+
     await fetch('/api/menu', {
       method: 'POST',
       headers: {
@@ -42,11 +52,12 @@ export default function AdminDashboard({ token, onLogout }) {
       body: JSON.stringify({
         name: menuName,
         description: menuDesc,
-        price: menuPrice,
+        price: menuPrice ? Number(menuPrice) : undefined,
+        varieties: varietiesArray,
         category: menuCategory
       })
     });
-    setMenuName(''); setMenuDesc(''); setMenuPrice(0); setMenuCategory('');
+    setMenuName(''); setMenuDesc(''); setMenuPrice(''); setMenuCategory(''); setMenuVarieties('');
     fetchMenu();
   };
 
@@ -96,8 +107,9 @@ export default function AdminDashboard({ token, onLogout }) {
               <form onSubmit={handleAddMenu} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <input placeholder="Name" value={menuName} onChange={e => setMenuName(e.target.value)} required style={inputStyle} />
                 <input placeholder="Description" value={menuDesc} onChange={e => setMenuDesc(e.target.value)} required style={inputStyle} />
-                <input type="number" placeholder="Price" value={menuPrice} onChange={e => setMenuPrice(e.target.value)} style={{...inputStyle, width: '80px'}} />
+                <input type="number" placeholder="Base Price (if no varieties)" value={menuPrice} onChange={e => setMenuPrice(e.target.value)} style={{...inputStyle, width: '150px'}} />
                 <input placeholder="Category" value={menuCategory} onChange={e => setMenuCategory(e.target.value)} required style={{...inputStyle, width: '120px'}} />
+                <input placeholder="Varieties (e.g. Ghee Roast:150, Sukka:160)" value={menuVarieties} onChange={e => setMenuVarieties(e.target.value)} style={{...inputStyle, width: '100%'}} />
                 <button type="submit" style={btnApprove}>Add Item</button>
               </form>
             </div>
@@ -107,7 +119,13 @@ export default function AdminDashboard({ token, onLogout }) {
               {menuItems.map(item => (
                 <div key={item._id} style={listItemStyle}>
                   <div>
-                    <strong style={{color:'#EAE202', letterSpacing:'1px', fontSize:'1.1rem'}}>{item.name}</strong> - {item.description} ({item.category}) Let ₹{item.price}
+                    <strong style={{color:'#EAE202', letterSpacing:'1px', fontSize:'1.1rem'}}>{item.name}</strong> - {item.description} ({item.category})
+                    {item.price ? ` | Base Price: ₹${item.price}` : ''}
+                    {item.varieties && item.varieties.length > 0 && (
+                      <div style={{marginTop: '5px', fontSize: '0.9rem', color: '#cbd5e1'}}>
+                        Varieties: {item.varieties.map(v => `${v.name} (₹${v.price})`).join(', ')}
+                      </div>
+                    )}
                   </div>
                   <button onClick={() => handleDeleteMenu(item._id)} style={btnDanger}>Delete</button>
                 </div>
